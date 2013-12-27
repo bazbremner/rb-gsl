@@ -938,11 +938,22 @@ static VALUE rb_gsl_vector_complex_trans(VALUE obj)
 
 static VALUE rb_gsl_vector_complex_trans2(VALUE obj)
 {
-  if (CLASS_OF(obj) == cgsl_vector_complex) 
+  if (CLASS_OF(obj) == cgsl_vector_complex) {
+#ifdef RBASIC_CLASS
+    RBASIC_SET_CLASS(obj, cgsl_vector_complex_col);
+#endif
+#ifndef RBASIC_CLASS
     RBASIC(obj)->klass = cgsl_vector_complex_col;
-  else if (CLASS_OF(obj) == cgsl_vector_complex_col) 
+#endif
+  } else if (CLASS_OF(obj) == cgsl_vector_complex_col) {
+#ifdef RBASIC_CLASS
+    RBASIC_SET_CLASS(obj, cgsl_vector_complex);
+#endif
+#ifndef RBASIC_CLASS
     RBASIC(obj)->klass = cgsl_vector_complex;
-  else {
+#endif
+
+  } else {
     rb_raise(rb_eRuntimeError, "method trans! for %s is forbidden",
 	     rb_class2name(CLASS_OF(obj)));
   }
