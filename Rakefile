@@ -22,7 +22,7 @@ spec = Gem::Specification.new do |s|
   s.rubyforge_project = 'rb-gsl' 
 
   # Files, Libraries, and Extensions
-  s.files = FileList[
+  s.files = Dir[
     'AUTHORS',
     'COPYING',
     'ChangeLog',
@@ -37,7 +37,7 @@ spec = Gem::Specification.new do |s|
     'include/*',
     'rdoc/*',
     'tests/**/*'
-  ].to_a
+  ]
   #s.autorequire = nil
   #s.bindir = 'bin'
   #s.executables = []
@@ -56,7 +56,7 @@ spec = Gem::Specification.new do |s|
     '--exclude', 'include/',
     '--exclude', 'lib/',
   ]
-  s.extra_rdoc_files = FileList['rdoc/*'].to_a
+  s.extra_rdoc_files = Dir['rdoc/*']
 
   if s.respond_to? :specification_version then
     s.specification_version = 4
@@ -86,6 +86,13 @@ end
 Gem::PackageTask.new(spec) do |pkg|
   pkg.need_zip = false
   pkg.need_tar = false
+  pkg.gem_spec = spec
+end
+
+desc "Build the gemspec file #{spec.name}.gemspec"
+task :gemspec do
+  file = File.dirname(__FILE__) + "/#{spec.name}.gemspec"
+  File.open(file, "w") {|f| f << spec.to_ruby }
 end
 
 task :default => [:package, :gem]
