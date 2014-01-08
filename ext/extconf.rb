@@ -1,5 +1,5 @@
 require 'mkmf'
-
+require 'gsl/version'
 
 module GSL
   class Version
@@ -194,14 +194,12 @@ begin
   if have_header("alf/alf.h")
     have_library("alf")
   end
-  
+
   begin
     print("checking rb-gsl version...")
-    IO.popen("cat ../VERSION") do |f|
-      ver = GSL::Version.new(f.gets.chomp)
-      puts(ver)
-      RB_GSL_CONFIG.printf("#ifndef RUBY_GSL_VERSION\n#define RUBY_GSL_VERSION \"#{ver}\"\n#endif\n")
-    end
+    ver = GSL::Version.new(GSL::VERSION)
+    puts(ver)
+    RB_GSL_CONFIG.printf("#ifndef RUBY_GSL_VERSION\n#define RUBY_GSL_VERSION \"#{ver}\"\n#endif\n")
   end
 
   RUBY_VERSION2 = GSL::Version.new(RUBY_VERSION)
