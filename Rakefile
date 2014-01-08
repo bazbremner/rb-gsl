@@ -14,11 +14,8 @@ spec = Gem::Specification.new do |s|
   s.description = 'Ruby/GSL is a Ruby interface to the GNU Scientific Library, for numerical computing with Ruby'
   s.required_ruby_version = '>= 1.8.1'
   s.requirements << 'GSL (http://www.gnu.org/software/gsl/)'
-  # plotlib?
-  s.add_dependency('narray', '>= 0.5.9')
 
   # About
-
   s.authors = ['Yoshiki Tsunesada', 'David MacMahon']
   s.email = 'y-tsunesada@mm.em-net.ne.jp'
   s.homepage = 'http://rb-gsl.rubyforge.org/'
@@ -60,6 +57,21 @@ spec = Gem::Specification.new do |s|
     '--exclude', 'lib/',
   ]
   s.extra_rdoc_files = FileList['rdoc/*'].to_a
+
+  if s.respond_to? :specification_version then
+    s.specification_version = 4
+
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<narray>, [">= 0.5.9"])
+      s.add_development_dependency(%q<rake>, [">= 0"])
+    else
+      s.add_dependency(%q<narray>, [">= 0.5.9"])
+      s.add_dependency(%q<rake>, [">= 0"])
+    end
+  else
+    s.add_dependency(%q<narray>, [">= 0.5.9"])
+    s.add_dependency(%q<rake>, [">= 0"])
+  end
 
   # Testing TODO
   #s.test_files = []
