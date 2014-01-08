@@ -1,22 +1,24 @@
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
 require 'rubygems'
 require 'rubygems/package_task'
 require 'rake/rdoctask'
 
-RB_GSL_VERSION = File.readlines('VERSION')[0].chomp
+require 'gsl/version'
 
 spec = Gem::Specification.new do |s|
-  # Basics
-  s.name = 'gsl'
-  s.version = RB_GSL_VERSION
+  s.name    = 'gsl'
+  s.version = GSL::VERSION
   s.summary = 'Ruby interface to GNU Scientific Library'
   s.description = 'Ruby/GSL is a Ruby interface to the GNU Scientific Library, for numerical computing with Ruby'
-  #s.platform = Gem::Platform::Ruby
   s.required_ruby_version = '>= 1.8.1'
   s.requirements << 'GSL (http://www.gnu.org/software/gsl/)'
   # plotlib?
   s.add_dependency('narray', '>= 0.5.9')
 
   # About
+
   s.authors = ['Yoshiki Tsunesada', 'David MacMahon']
   s.email = 'y-tsunesada@mm.em-net.ne.jp'
   s.homepage = 'http://rb-gsl.rubyforge.org/'
@@ -31,7 +33,6 @@ spec = Gem::Specification.new do |s|
     'Rakefile',
     'setup.rb',
     'THANKS',
-    'VERSION',
     'examples/**/*',
     'ext/extconf.rb',
     'ext/*.c',
@@ -40,11 +41,11 @@ spec = Gem::Specification.new do |s|
     'rdoc/*',
     'tests/**/*'
   ].to_a
-  s.require_paths = ['lib', 'lib/gsl', 'lib/ool', 'ext']
   #s.autorequire = nil
   #s.bindir = 'bin'
   #s.executables = []
   #s.default_executable = nil
+  s.require_paths = ['lib', 'lib/gsl', 'lib/ool', 'ext']
 
   # C compilation
   s.extensions = %w[ ext/extconf.rb ]
@@ -64,7 +65,7 @@ spec = Gem::Specification.new do |s|
   #s.test_files = []
 end
 
-Rake::PackageTask.new('rb-gsl', RB_GSL_VERSION) do |pkg|
+Rake::PackageTask.new('rb-gsl', GSL::VERSION) do |pkg|
   pkg.need_zip = true
   pkg.need_tar = true
   pkg.package_files = spec.files
