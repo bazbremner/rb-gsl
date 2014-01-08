@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'rubygems'
 require 'rubygems/package_task'
-require 'rake/rdoctask'
+require 'rdoc/task'
 
 require 'gsl/version'
 
